@@ -4,4 +4,5 @@ volume  KEYWORD2
 volumesoftstep KEYWORD2
 softmute  KEYWORD2
 attenuator  KEYWORD2
-
+diffinmode  KEYWORD2
+source  KEYWORD2

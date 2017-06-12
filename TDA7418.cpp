@@ -1,7 +1,7 @@
 #include "Arduino.h"
 #include "Wire.h"
 #include "TDA7418.h"
-#include "TDA7418_reg.h"
+#include "defines.h"
 
 #define DEBUG_MODE
 
@@ -26,6 +26,32 @@ void TDA7418::init() {
   
     Wire.endTransmission();
 }
+
+void TDA7418::source(byte _source) {
+
+    _register_data[REG_SOURCE_SEL] &= ~0x07;
+    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
+
+    _register_data[REG_SOURCE_SEL] |= _source & 0x07;
+    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
+
+}
+
+void TDA7418::diffinmode(byte _mode) {
+
+    if (_mode) {
+        _register_data[REG_SOURCE_SEL] |= (1 << 7);
+    }
+    else {
+        _register_data[REG_SOURCE_SEL] &= ~(1 << 7);
+    }
+
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(REG_SOURCE_SEL);
+    Wire.write(_register_data[REG_SOURCE_SEL]);
+    Wire.endTransmission();
+}
+
 
 void TDA7418::volume(byte _volume) {
 

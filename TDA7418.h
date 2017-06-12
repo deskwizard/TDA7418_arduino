@@ -2,10 +2,7 @@
 #define tda7418_h
 
 #include "Arduino.h"
-#include "TDA7418_reg.h"
-
-#define enable 1
-#define disable 0
+#include "defines.h"
 
 class TDA7418 {
 
@@ -13,6 +10,9 @@ class TDA7418 {
         TDA7418();
 
         void init();
+
+        void source(byte _source);
+        void diffinmode(byte _mode);
 
         void volume(byte _volume);
         void volumesoftstep(byte _state);        
