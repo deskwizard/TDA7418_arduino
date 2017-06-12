@@ -27,53 +27,157 @@ void TDA7418::init() {
     Wire.endTransmission();
 }
 
-// Get and returns the soft mute state
-byte TDA7418::get_sm() {
-  byte sm_state;
+void TDA7418::volume(byte _volume) {
 
-  Wire.beginTransmission(TDA_ADDR);
-  Wire.write(0x00);
-  Wire.endTransmission();
+    uint8_t _set_volume;
 
-  Wire.requestFrom(TDA_ADDR, 1);
-
-#ifdef DEBUG_MODE
-  if (Wire.available()) {
-    sm_state = Wire.read();
-
-    Serial.print("Soft Mute state: ");
-    if (!sm_state) {
-      Serial.println("Off");
+    // bits 0x00 - 0x0F -> 0dBto +15dB
+    if (_volume < 0x10 && _volume >= 0) {
+        _set_volume = _volume;
     }
     else {
-      Serial.println("On");
+        _set_volume = 0x10 + -_volume;
     }
-  }
+
+#ifdef DEBUG_MODE
+    Serial.print("Volume sent: ");
+    Serial.println(_set_volume, HEX);
 #endif
 
-  return sm_state;
-} // get_sm
+    _register_data[REG_VOLUME] &= ~0x7F;
+//    Serial.println(_register_data[REG_VOLUME], HEX);
+
+    _register_data[REG_VOLUME] |= _set_volume & 0x7F;
+//    Serial.println(_register_data[REG_VOLUME], HEX);
+
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(REG_VOLUME);
+    Wire.write(_register_data[REG_VOLUME]);
+    Wire.endTransmission();
+
+} // set_volume()
+
+void TDA7418::volumesoftstep(byte _state) {
+
+    if (_state) {
+        _register_data[REG_VOLUME] &= ~(1 << 7);
+    }
+    else {
+        _register_data[REG_VOLUME] |= (1 << 7);
+    }
+
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(REG_VOLUME);
+    Wire.write(_register_data[REG_VOLUME]);
+    Wire.endTransmission();
+
+} // set VSS
+
+
+// Get and returns the soft mute state
+byte TDA7418::softmute() {
+    byte sm_state;
+
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(0x00);
+    Wire.endTransmission();
+
+    Wire.requestFrom(TDA_ADDR, 1);
+
+
+    if (Wire.available()) {
+        sm_state = Wire.read();
+
+#ifdef DEBUG_MODE
+        Serial.print("Soft Mute state: ");
+
+        if (!sm_state) {
+            Serial.println("Off");
+        }
+        else {
+            Serial.println("On");
+        }
+#endif
+    }
+
+    return sm_state;
+} // get softmute
 
 // Set Soft Mute
-void TDA7418::set_sm(byte _state) {
+void TDA7418::softmute(byte _state) {
   // Beware, softmute is active low
 
-  if (_state) { // Softmute On request
+    if (_state) { // Softmute On request
 
-    _register_data[REG_SOFTMUTE] &= ~(1 << 0);
+        _register_data[REG_SOFTMUTE] &= ~(1 << 0);
 
+        Wire.beginTransmission(TDA_ADDR);
+        Wire.write(REG_SOFTMUTE);
+        Wire.write(_register_data[REG_SOFTMUTE]);
+        Wire.endTransmission();
+    }
+    else {
+
+        _register_data[REG_SOFTMUTE] |= (1 << 0);
+
+        Wire.beginTransmission(TDA_ADDR);
+        Wire.write(REG_SOFTMUTE);
+        Wire.write(_register_data[REG_SOFTMUTE]);
+        Wire.endTransmission();
+    }
+} // set softmute
+
+// Set all atenuators in auto-increment mode (batch writes)
+void TDA7418::attenuator(int8_t _value) {
+    uint8_t _set_att;
+
+    // bits 0x00 - 0x0F -> 0dBto +15dB
+    if (_value < 0x10 && _value >= 0) {
+        _set_att = _value;
+    }
+    else {
+        _set_att = 0x10 + -_value;
+    }
+
+    // Batch write attenuators 7 - 11
     Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_SOFTMUTE);
-    Wire.write(_register_data[REG_SOFTMUTE]);
-    Wire.endTransmission();
-  }
-  else {
+    Wire.write(REG_SPK_ATT_FL + 0x20);
 
-    _register_data[REG_SOFTMUTE] |= (1 << 0);
+    // Write the 5 attenuators with the same value
+    for (byte x = 0x07; x <= 0x0B; x++) {
+        _register_data[x] = _set_att;
+        Wire.write(_register_data[x]);
+    }
 
+    Wire.endTransmission(); // End batch write attenuators 7 - 11
+
+#ifdef DEBUG_MODE
+    Serial.print("Sent global data: 0x");
+    Serial.println(_set_att, HEX);
+#endif
+}
+
+
+void TDA7418::attenuator(uint8_t _channel, int8_t _value) {
+    uint8_t _set_att;
+
+    // bits 0x00 - 0x0F -> 0dBto +15dB
+    if (_value < 0x10 && _value >= 0) {
+        _set_att = _value;
+    }
+    else {
+        _set_att = 0x10 + -_value;
+    }
+
+    _register_data[_channel] = _set_att;
+    
     Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_SOFTMUTE);
-    Wire.write(_register_data[REG_SOFTMUTE]);
+    Wire.write(_channel);
+    Wire.write(_register_data[_channel]);
     Wire.endTransmission();
-  }
-} //set_sm
+
+#ifdef DEBUG_MODE
+    Serial.print("Sent data: 0x");
+    Serial.println(_set_att, HEX);
+#endif
+}

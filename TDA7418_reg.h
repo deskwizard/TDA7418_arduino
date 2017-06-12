@@ -1,19 +1,15 @@
 #ifndef tda7418_reg_h
 #define tda7418_reg_h
 
-#define ON 1
-#define OFF 0
-
 // I2C bus address
 #define TDA_ADDR 0x44
 
 // Output Channel definitions
-#define Global 0
-#define Subwoofer 1
-#define Front_Left 2
-#define Rear_Left 3
-#define Rear_Right 4
-#define Front_Right 5
+#define Subwoofer 0x0B
+#define Front_Left 0x07
+#define Rear_Left 0x08
+#define Rear_Right 0x09
+#define Front_Right 0x0A
 
 
 // Registers map

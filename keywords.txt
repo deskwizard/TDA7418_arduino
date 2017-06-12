@@ -1,2 +1,7 @@
 TDA7418 KEYWORD1
 init    KEYWORD2
+volume  KEYWORD2
+volumesoftstep KEYWORD2
+softmute  KEYWORD2
+attenuator  KEYWORD2
+
