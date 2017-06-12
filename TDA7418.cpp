@@ -5,6 +5,8 @@
 
 #define DEBUG_MODE
 
+byte TDA7418::_register_data[14] = {0xFE};
+
 TDA7418::TDA7418() {}
 
 

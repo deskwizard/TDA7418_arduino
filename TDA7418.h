@@ -11,7 +11,7 @@ class TDA7418 {
         byte get_sm();
         void set_sm(byte _state);
     private:
-        byte _register_data[14] = {0xFE};
+        static byte _register_data[14];
 };
 
 
