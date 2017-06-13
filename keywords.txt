@@ -1,5 +1,6 @@
 TDA7418 KEYWORD1
-init    KEYWORD2
+
+begin    KEYWORD2
 
 source  KEYWORD2
 inputgain   KEYWORDS2
@@ -12,6 +13,9 @@ loudnesssoftstep    KEYWORDS2
 
 volume  KEYWORD2
 volumesoftstep KEYWORD2
+
+trebleatt   KEYWORDS2
+treblecenterfreq    KEYWORDS2
 
 softmute  KEYWORD2
 

@@ -11,7 +11,7 @@ TDA7418::TDA7418() {}
 
 
 // Initialize TDA7418 with Power on defaults (0xFE)
-void TDA7418::init() {
+void TDA7418::begin() {
 
     Wire.beginTransmission(TDA_ADDR);
 
@@ -155,6 +155,67 @@ void TDA7418::volumesoftstep(byte _state) {
 } // set VSS
 
 
+void TDA7418::trebleatt(int _value) {
+    int _result;
+    
+//    Serial.print("Att req: ");
+//    Serial.println(_value);
+
+    if (_value >= 0) {
+        _result = 0x1F - _value;
+    }
+    else {
+        _result = _value + 0x0F;
+    }
+    
+//    Serial.print("Att sent: ");
+//    Serial.println(_result, HEX);
+
+    // bitmask the internal variable
+    _register_data[REG_TREBLE] &= ~0x1F;
+    _register_data[REG_TREBLE] |= _result & 0x1F;
+
+    // Write to I2c Bus
+    _write_register(REG_TREBLE);
+
+//    Serial.print("Att written: ");
+//    Serial.println(_register_data[REG_TREBLE], HEX);
+}
+
+
+void TDA7418::treblecenterfreq(int _freq) {
+
+    byte _value = 0;
+    _register_data[REG_TREBLE] &= ~0x60;
+
+    switch (_freq) {
+        case 10000:
+            _value = 0;
+        break;
+
+        case 12500:
+            _value = 1;
+        break;
+
+        case 15000:
+            _value = 3;
+        break;
+
+        case 17500:
+            _value = 4;
+        break;
+
+        default:
+            return;
+        break;
+    }
+
+    _register_data[REG_TREBLE] |= _value & 0x60;
+    _write_register(REG_TREBLE);
+
+}
+
+
 // Get and returns the soft mute state
 byte TDA7418::softmute() {
     byte sm_state;
@@ -253,9 +314,10 @@ void TDA7418::attenuator(uint8_t _channel, int8_t _value) {
 
 
 // Pretty much self-explanatory
-void TDA7418::_write_register(byte _register) {
+byte TDA7418::_write_register(byte _register) {
     Wire.beginTransmission(TDA_ADDR);
     Wire.write(_register);
     Wire.write(_register_data[_register]);
-    Wire.endTransmission();
+    byte error = Wire.endTransmission();
+    return error;
 }

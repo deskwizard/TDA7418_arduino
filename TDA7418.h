@@ -9,7 +9,7 @@ class TDA7418 {
     public:
         TDA7418();
 
-        void init();
+        void begin();
 
         void source(byte _source);
         void inputgain(byte _value);
@@ -23,6 +23,9 @@ class TDA7418 {
         void volume(byte _volume);
         void volumesoftstep(byte _state);
 
+        void trebleatt(int _value);
+        void treblecenterfreq(int _freq);
+
         byte softmute();
         void softmute(byte _state);
 
@@ -31,7 +34,7 @@ class TDA7418 {
 
     private:
         static byte _register_data[14];
-        void _write_register(byte _register);
+        byte _write_register(byte _register);
 };
 
 
