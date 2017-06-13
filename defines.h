@@ -8,12 +8,12 @@
 // I2C bus address
 #define TDA_ADDR 0x44
 
-// Output Channel definitions
-#define Subwoofer 0x0B
+// Attenuator definitions
 #define Front_Left 0x07
 #define Rear_Left 0x08
 #define Rear_Right 0x09
 #define Front_Right 0x0A
+#define Subwoofer 0x0B
 
 // Input channels definitions
 #define SE1 0x01
