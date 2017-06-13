@@ -6,3 +6,4 @@ softmute  KEYWORD2
 attenuator  KEYWORD2
 diffinmode  KEYWORD2
 source  KEYWORD2
+inputgain   KEYWORDS2

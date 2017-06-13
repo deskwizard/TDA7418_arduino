@@ -12,6 +12,7 @@ class TDA7418 {
         void init();
 
         void source(byte _source);
+        void inputgain(byte _value);
         void diffinmode(byte _mode);
 
         void volume(byte _volume);

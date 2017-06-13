@@ -42,6 +42,21 @@ void TDA7418::source(byte _source) {
 
 }
 
+void TDA7418::inputgain(byte _value) {
+
+    _register_data[REG_SOURCE_SEL] &= ~0x78;
+//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
+
+    _register_data[REG_SOURCE_SEL] |= _source & 0x78;
+//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
+
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(REG_SOURCE_SEL);
+    Wire.write(_register_data[REG_SOURCE_SEL]);
+    Wire.endTransmission();
+
+}
+
 void TDA7418::diffinmode(byte _mode) {
 
     if (_mode) {
