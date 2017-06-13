@@ -254,6 +254,45 @@ void TDA7418::middlesoftstep(byte _state) {
 } // set MSS
 
 
+void TDA7418::bassatt(int _value) {
+    int _result;
+
+    if (_value >= 0) {
+        _result = 0x1F - _value;
+    }
+    else {
+        _result = _value + 0x0F;
+    }
+
+    // bitmask the internal variable
+    _register_data[REG_BASS] &= ~0x1F;
+    _register_data[REG_BASS] |= _result & 0x1F;
+
+    // Write to I2c Bus
+    _write_register(REG_BASS);
+}
+
+
+void TDA7418::bassqf(byte _factor) {
+
+    _register_data[REG_BASS] &= ~0x60;
+    _register_data[REG_BASS] |= _factor & 0x60;
+    _write_register(REG_BASS);
+}
+
+
+void TDA7418::basssoftstep(byte _state) {
+
+    if (_state) {
+        _register_data[REG_BASS] &= ~(1 << 7);
+    }
+    else {
+        _register_data[REG_BASS] |= (1 << 7);
+    }
+    _write_register(REG_BASS);
+} // set MSS
+
+
 // Get and returns the soft mute state
 byte TDA7418::softmute() {
     byte sm_state;

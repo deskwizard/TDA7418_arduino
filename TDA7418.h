@@ -30,6 +30,10 @@ class TDA7418 {
         void middleqf(byte _factor);
         void middlesoftstep(byte _state);
 
+        void bassatt(int _value);
+        void bassqf(byte _factor);
+        void basssoftstep(byte _state);
+
         byte softmute();
         void softmute(byte _state);
 

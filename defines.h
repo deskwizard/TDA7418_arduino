@@ -35,6 +35,12 @@
 #define MID_QF_100 2
 #define MID_QF_125 3
 
+// Bass settings
+#define BASS_QF_100 0
+#define BASS_QF_125 1
+#define BASS_QF_150 2
+#define BASS_QF_200 3
+
 // Registers map
 #define REG_SOURCE_SEL  0x00
 #define REG_LOUDNESS    0x01

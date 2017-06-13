@@ -21,6 +21,10 @@ middleatt   KEYWORDS2
 middleqf    KEYWORDS2
 middlesoftstep  KEYWORDS2
 
+bassatt   KEYWORDS2
+bassqf    KEYWORDS2
+basssoftstep  KEYWORDS2
+
 softmute  KEYWORD2
 
 attenuator  KEYWORD2
