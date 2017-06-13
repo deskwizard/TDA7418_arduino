@@ -233,6 +233,37 @@ void TDA7418::middleatt(int _value) {
     _write_register(REG_MIDDLE);
 }
 
+void TDA7418::middlecenterfreq(int _freq) {
+
+    byte _value = 0;
+    _register_data[REG_MID_BAS_FC] &= ~0x03;
+
+    switch (_freq) {
+        case 500:
+            _value = 0;
+        break;
+
+        case 1000:
+            _value = 1;
+        break;
+
+        case 1500:
+            _value = 3;
+        break;
+
+        case 2500:
+            _value = 4;
+        break;
+
+        default:
+            return;
+        break;
+    }
+
+    _register_data[REG_MID_BAS_FC] |= _value & 0x03;
+    _write_register(REG_MID_BAS_FC);
+}
+
 
 void TDA7418::middleqf(byte _factor) {
 
@@ -273,6 +304,38 @@ void TDA7418::bassatt(int _value) {
 }
 
 
+void TDA7418::basscenterfreq(byte _freq) {
+
+    byte _value = 0;
+    _register_data[REG_MID_BAS_FC] &= ~0x0C;
+
+    switch (_freq) {
+        case 60:
+            _value = 0;
+        break;
+
+        case 80:
+            _value = 1;
+        break;
+
+        case 100:
+            _value = 3;
+        break;
+
+        case 200:
+            _value = 4;
+        break;
+
+        default:
+            return;
+        break;
+    }
+
+    _register_data[REG_MID_BAS_FC] |= _value & 0x0C;
+    _write_register(REG_MID_BAS_FC);
+}
+
+
 void TDA7418::bassqf(byte _factor) {
 
     _register_data[REG_BASS] &= ~0x60;
@@ -291,6 +354,29 @@ void TDA7418::basssoftstep(byte _state) {
     }
     _write_register(REG_BASS);
 } // set MSS
+
+void TDA7418::bassdcmode(byte _state) {
+
+    if (_state) {
+        _register_data[REG_MID_BAS_FC] &= ~(1 << 4);
+    }
+    else {
+        _register_data[REG_MID_BAS_FC] |= (1 << 4);
+    }
+    _write_register(REG_MID_BAS_FC);
+} // set Bass DC mode
+
+
+void TDA7418::smoothingfilter(byte _state) {
+
+    if (_state) {
+        _register_data[REG_MID_BAS_FC] &= ~(1 << 5);
+    }
+    else {
+        _register_data[REG_MID_BAS_FC] |= (1 << 5);
+    }
+    _write_register(REG_MID_BAS_FC);
+} // set Bass DC mode
 
 
 // Get and returns the soft mute state

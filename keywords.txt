@@ -18,12 +18,17 @@ trebleatt   KEYWORDS2
 treblecenterfreq    KEYWORDS2
 
 middleatt   KEYWORDS2
+treblecenterfreq KEYWORDS2
 middleqf    KEYWORDS2
 middlesoftstep  KEYWORDS2
 
 bassatt   KEYWORDS2
+basscenterfreq KEYWORDS2
 bassqf    KEYWORDS2
 basssoftstep  KEYWORDS2
+bassdcmode  KEYWORDS2
+
+smoothingfilter KEYWORDS2
 
 softmute  KEYWORD2
 
