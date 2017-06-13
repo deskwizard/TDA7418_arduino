@@ -57,6 +57,8 @@
 #define MUTE        0x82
 
 // Registers map
+#define AUTOINCREMENT 0x20
+
 #define REG_SOURCE_SEL  0x00
 #define REG_LOUDNESS    0x01
 #define REG_VOLUME      0x02

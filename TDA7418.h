@@ -9,7 +9,7 @@ class TDA7418 {
     public:
         TDA7418();
 
-        void begin();
+        byte begin();
 
         void source(byte _source);
         void inputgain(byte _value);
@@ -50,12 +50,13 @@ class TDA7418 {
         void schlock(byte _state);
         void mutepincfg(byte _value);
 
-        void attenuator(int8_t _value);
-        void attenuator(uint8_t _channel, int8_t _value);       
+        void attenuator(char _value);
+        void attenuator(byte _channel, char _value);       
 
     private:
         static byte _register_data[14];
         byte _write_register(byte _register);
+
 };
 
 
