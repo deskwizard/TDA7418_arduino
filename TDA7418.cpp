@@ -358,10 +358,10 @@ void TDA7418::basssoftstep(byte _state) {
 void TDA7418::bassdcmode(byte _state) {
 
     if (_state) {
-        _register_data[REG_MID_BAS_FC] &= ~(1 << 4);
+        _register_data[REG_MID_BAS_FC] |= (1 << 4);        
     }
     else {
-        _register_data[REG_MID_BAS_FC] |= (1 << 4);
+        _register_data[REG_MID_BAS_FC] &= ~(1 << 4);
     }
     _write_register(REG_MID_BAS_FC);
 } // set Bass DC mode
@@ -370,10 +370,10 @@ void TDA7418::bassdcmode(byte _state) {
 void TDA7418::smoothingfilter(byte _state) {
 
     if (_state) {
-        _register_data[REG_MID_BAS_FC] &= ~(1 << 5);
+        _register_data[REG_MID_BAS_FC] |= (1 << 5);        
     }
     else {
-        _register_data[REG_MID_BAS_FC] |= (1 << 5);
+        _register_data[REG_MID_BAS_FC] &= ~(1 << 5);
     }
     _write_register(REG_MID_BAS_FC);
 } // set Bass DC mode
@@ -421,6 +421,18 @@ void TDA7418::softmute(byte _state) {
 
     _write_register(REG_SOFTMUTE);
 } // set softmute
+
+
+void TDA7418::autozero(byte _state) {
+
+    if (_state) {
+        _register_data[REG_SOFTMUTE] &= ~(1 << 6);
+    }
+    else {
+        _register_data[REG_SOFTMUTE] |= (1 << 6);
+    }
+    _write_register(REG_SOFTMUTE);
+} // set auto-zero
 
 
 // Set all atenuators in auto-increment mode (batch writes)

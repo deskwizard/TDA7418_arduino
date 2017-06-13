@@ -18,7 +18,7 @@ trebleatt   KEYWORDS2
 treblecenterfreq    KEYWORDS2
 
 middleatt   KEYWORDS2
-treblecenterfreq KEYWORDS2
+middlecenterfreq KEYWORDS2
 middleqf    KEYWORDS2
 middlesoftstep  KEYWORDS2
 
@@ -31,5 +31,6 @@ bassdcmode  KEYWORDS2
 smoothingfilter KEYWORDS2
 
 softmute  KEYWORD2
+autozero    KEYWORDS2
 
 attenuator  KEYWORD2

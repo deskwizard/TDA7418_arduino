@@ -41,6 +41,7 @@ class TDA7418 {
 
         byte softmute();
         void softmute(byte _state);
+        void autozero(byte _state);
 
         void attenuator(int8_t _value);
         void attenuator(uint8_t _channel, int8_t _value);       
