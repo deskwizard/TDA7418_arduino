@@ -26,6 +26,10 @@ class TDA7418 {
         void trebleatt(int _value);
         void treblecenterfreq(int _freq);
 
+        void middleatt(int _value);
+        void middleqf(byte _factor);
+        void middlesoftstep(byte _state);
+
         byte softmute();
         void softmute(byte _state);
 

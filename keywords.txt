@@ -17,6 +17,10 @@ volumesoftstep KEYWORD2
 trebleatt   KEYWORDS2
 treblecenterfreq    KEYWORDS2
 
+middleatt   KEYWORDS2
+middleqf    KEYWORDS2
+middlesoftstep  KEYWORDS2
+
 softmute  KEYWORD2
 
 attenuator  KEYWORD2

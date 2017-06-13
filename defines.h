@@ -29,6 +29,12 @@
 #define LOWHIGH 1
 #define OFF 0
 
+// Middle settings
+#define MID_QF_050 0
+#define MID_QF_075 1
+#define MID_QF_100 2
+#define MID_QF_125 3
+
 // Registers map
 #define REG_SOURCE_SEL  0x00
 #define REG_LOUDNESS    0x01

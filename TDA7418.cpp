@@ -212,8 +212,46 @@ void TDA7418::treblecenterfreq(int _freq) {
 
     _register_data[REG_TREBLE] |= _value & 0x60;
     _write_register(REG_TREBLE);
-
 }
+
+
+void TDA7418::middleatt(int _value) {
+    int _result;
+
+    if (_value >= 0) {
+        _result = 0x1F - _value;
+    }
+    else {
+        _result = _value + 0x0F;
+    }
+
+    // bitmask the internal variable
+    _register_data[REG_MIDDLE] &= ~0x1F;
+    _register_data[REG_MIDDLE] |= _result & 0x1F;
+
+    // Write to I2c Bus
+    _write_register(REG_MIDDLE);
+}
+
+
+void TDA7418::middleqf(byte _factor) {
+
+    _register_data[REG_MIDDLE] &= ~0x60;
+    _register_data[REG_MIDDLE] |= _factor & 0x60;
+    _write_register(REG_MIDDLE);
+}
+
+
+void TDA7418::middlesoftstep(byte _state) {
+
+    if (_state) {
+        _register_data[REG_MIDDLE] &= ~(1 << 7);
+    }
+    else {
+        _register_data[REG_MIDDLE] |= (1 << 7);
+    }
+    _write_register(REG_MIDDLE);
+} // set MSS
 
 
 // Get and returns the soft mute state
