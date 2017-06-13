@@ -24,6 +24,11 @@
 #define PD 1
 #define SE 0
 
+// Loudness
+// LOW is already defined as 0
+#define LOWHIGH 1
+#define OFF 0
+
 // Registers map
 #define REG_SOURCE_SEL  0x00
 #define REG_LOUDNESS    0x01

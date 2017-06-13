@@ -30,31 +30,19 @@ void TDA7418::init() {
 void TDA7418::source(byte _source) {
 
     _register_data[REG_SOURCE_SEL] &= ~0x07;
-//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
 
     _register_data[REG_SOURCE_SEL] |= _source & 0x07;
-//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
 
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_SOURCE_SEL);
-    Wire.write(_register_data[REG_SOURCE_SEL]);
-    Wire.endTransmission();
-
+    _write_register(REG_SOURCE_SEL);
 }
 
 void TDA7418::inputgain(byte _value) {
 
     _register_data[REG_SOURCE_SEL] &= ~0x78;
-//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
 
-    _register_data[REG_SOURCE_SEL] |= _source & 0x78;
-//    Serial.println(_register_data[REG_SOURCE_SEL], HEX);
+    _register_data[REG_SOURCE_SEL] |= _value & 0x78;
 
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_SOURCE_SEL);
-    Wire.write(_register_data[REG_SOURCE_SEL]);
-    Wire.endTransmission();
-
+    _write_register(REG_SOURCE_SEL);
 }
 
 void TDA7418::diffinmode(byte _mode) {
@@ -65,12 +53,72 @@ void TDA7418::diffinmode(byte _mode) {
     else {
         _register_data[REG_SOURCE_SEL] &= ~(1 << 7);
     }
-
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_SOURCE_SEL);
-    Wire.write(_register_data[REG_SOURCE_SEL]);
-    Wire.endTransmission();
+    _write_register(REG_SOURCE_SEL);
 }
+
+void TDA7418::loudnessattenuator(int _value) {
+    
+    _value = abs(_value); // ditch sign bit
+
+    _register_data[REG_LOUDNESS] &= ~0x0F;
+    _register_data[REG_LOUDNESS] |= _value & 0x0F;
+
+    _write_register(REG_LOUDNESS);
+}
+
+void TDA7418::loudnesscenterfreq(int _freq) {
+
+    byte _value = 0;
+    _register_data[REG_LOUDNESS] &= ~0x30;
+
+    switch (_freq) {
+        case OFF:
+            _value = 0;
+            loudnessshape(LOW);
+        break;
+
+        case 400:
+            _value = 1;
+        break;
+
+        case 800:
+            _value = 2;
+        break;
+
+        case 2400:
+            _value = 3;
+        break;
+    }
+
+    _register_data[REG_LOUDNESS] |= _value & 0x30;
+    _write_register(REG_LOUDNESS);
+}
+
+
+void TDA7418::loudnessshape(byte _shape) {
+
+    if (_shape) {
+        _register_data[REG_LOUDNESS] |= (1 << 6);
+    }
+    else {
+        _register_data[REG_LOUDNESS] &= ~(1 << 6);
+    }
+
+    _write_register(REG_LOUDNESS);
+}
+
+
+void TDA7418::loudnesssoftstep(byte _state) {
+
+    if (_state) {
+        _register_data[REG_LOUDNESS] &= ~(1 << 7);
+    }
+    else {
+        _register_data[REG_LOUDNESS] |= (1 << 7);
+    }
+
+    _write_register(REG_LOUDNESS);
+} // set LSS
 
 
 void TDA7418::volume(byte _volume) {
@@ -91,17 +139,9 @@ void TDA7418::volume(byte _volume) {
 #endif
 
     _register_data[REG_VOLUME] &= ~0x7F;
-//    Serial.println(_register_data[REG_VOLUME], HEX);
-
     _register_data[REG_VOLUME] |= _set_volume & 0x7F;
-//    Serial.println(_register_data[REG_VOLUME], HEX);
-
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_VOLUME);
-    Wire.write(_register_data[REG_VOLUME]);
-    Wire.endTransmission();
-
-} // set_volume()
+    _write_register(REG_VOLUME);
+} // set volume
 
 void TDA7418::volumesoftstep(byte _state) {
 
@@ -111,12 +151,7 @@ void TDA7418::volumesoftstep(byte _state) {
     else {
         _register_data[REG_VOLUME] |= (1 << 7);
     }
-
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(REG_VOLUME);
-    Wire.write(_register_data[REG_VOLUME]);
-    Wire.endTransmission();
-
+    _write_register(REG_VOLUME);
 } // set VSS
 
 
@@ -149,29 +184,20 @@ byte TDA7418::softmute() {
     return sm_state;
 } // get softmute
 
+
 // Set Soft Mute
 void TDA7418::softmute(byte _state) {
-  // Beware, softmute is active low
 
     if (_state) { // Softmute On request
-
         _register_data[REG_SOFTMUTE] &= ~(1 << 0);
-
-        Wire.beginTransmission(TDA_ADDR);
-        Wire.write(REG_SOFTMUTE);
-        Wire.write(_register_data[REG_SOFTMUTE]);
-        Wire.endTransmission();
     }
     else {
-
         _register_data[REG_SOFTMUTE] |= (1 << 0);
-
-        Wire.beginTransmission(TDA_ADDR);
-        Wire.write(REG_SOFTMUTE);
-        Wire.write(_register_data[REG_SOFTMUTE]);
-        Wire.endTransmission();
     }
+
+    _write_register(REG_SOFTMUTE);
 } // set softmute
+
 
 // Set all atenuators in auto-increment mode (batch writes)
 void TDA7418::attenuator(int8_t _value) {
@@ -201,9 +227,10 @@ void TDA7418::attenuator(int8_t _value) {
     Serial.print("Sent global data: 0x");
     Serial.println(_set_att, HEX);
 #endif
-}
+} // Set all attenuators
 
 
+// Set single attenuator
 void TDA7418::attenuator(uint8_t _channel, int8_t _value) {
     uint8_t _set_att;
 
@@ -216,14 +243,19 @@ void TDA7418::attenuator(uint8_t _channel, int8_t _value) {
     }
 
     _register_data[_channel] = _set_att;
-    
-    Wire.beginTransmission(TDA_ADDR);
-    Wire.write(_channel);
-    Wire.write(_register_data[_channel]);
-    Wire.endTransmission();
+    _write_register(_channel);
 
 #ifdef DEBUG_MODE
     Serial.print("Sent data: 0x");
     Serial.println(_set_att, HEX);
 #endif
+} // Set single attenuator
+
+
+// Pretty much self-explanatory
+void TDA7418::_write_register(byte _register) {
+    Wire.beginTransmission(TDA_ADDR);
+    Wire.write(_register);
+    Wire.write(_register_data[_register]);
+    Wire.endTransmission();
 }

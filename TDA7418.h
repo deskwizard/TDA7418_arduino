@@ -15,8 +15,13 @@ class TDA7418 {
         void inputgain(byte _value);
         void diffinmode(byte _mode);
 
+        void loudnessattenuator(int _value);
+        void loudnesscenterfreq(int _freq);
+        void loudnessshape(byte _shape);
+        void loudnesssoftstep(byte _state);
+
         void volume(byte _volume);
-        void volumesoftstep(byte _state);        
+        void volumesoftstep(byte _state);
 
         byte softmute();
         void softmute(byte _state);
@@ -26,7 +31,7 @@ class TDA7418 {
 
     private:
         static byte _register_data[14];
-
+        void _write_register(byte _register);
 };
 
 

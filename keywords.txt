@@ -1,9 +1,18 @@
 TDA7418 KEYWORD1
 init    KEYWORD2
-volume  KEYWORD2
-volumesoftstep KEYWORD2
-softmute  KEYWORD2
-attenuator  KEYWORD2
-diffinmode  KEYWORD2
+
 source  KEYWORD2
 inputgain   KEYWORDS2
+diffinmode  KEYWORD2
+
+loudnessattenuator  KEYWORDS2
+loudnesscenterfreq  KEYWORDS2
+loudnessshape   KEYWORDS2
+loudnesssoftstep    KEYWORDS2
+
+volume  KEYWORD2
+volumesoftstep KEYWORD2
+
+softmute  KEYWORD2
+
+attenuator  KEYWORD2
