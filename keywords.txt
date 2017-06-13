@@ -31,6 +31,13 @@ bassdcmode  KEYWORDS2
 smoothingfilter KEYWORDS2
 
 softmute  KEYWORD2
+softmutetime    KEYWORDS2
+softsteptime    KEYWORDS2
 autozero    KEYWORDS2
+
+testmode    KEYWORDS2
+testmux     KEYWORDS2
+schlock     KEYWORDS2
+mutepincfg  KEYWORDS2
 
 attenuator  KEYWORD2

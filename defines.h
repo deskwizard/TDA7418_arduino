@@ -16,11 +16,11 @@
 #define Subwoofer 0x0B
 
 // Input channels definitions
-#define SE1 0x01
-#define SE2 0x02
-#define SE3 0x03
-#define SE4_PD 0x00
-#define MUTE 0x04
+#define INPUT_SE1 0x01
+#define INPUT_SE2 0x02
+#define INPUT_SE3 0x03
+#define INPUT_SE4_PD 0x00
+#define INPUT_MUTE 0x04
 #define PD 1
 #define SE 0
 
@@ -40,6 +40,21 @@
 #define BASS_QF_125 1
 #define BASS_QF_150 2
 #define BASS_QF_200 3
+
+// Test register settings
+#define InMuxOutR   0
+#define LoudOutR    1
+#define VolumeOutR  2
+#define VGB126      3
+#define REF5V5      4
+#define SSCLK       5
+#define SMCLK       6
+#define Clk200kHz   7
+#define NORMAL_MODE 0
+#define FAST_MODE   1
+#define MUX_OUT     0x00
+#define EXT_CLK     0x80
+#define MUTE        0x82
 
 // Registers map
 #define REG_SOURCE_SEL  0x00

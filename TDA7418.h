@@ -41,7 +41,14 @@ class TDA7418 {
 
         byte softmute();
         void softmute(byte _state);
+        void softmutetime(byte _value);
+        void softsteptime(byte _value);
         void autozero(byte _state);
+
+        void testmode(byte _state);
+        void testmux(byte _value);
+        void schlock(byte _state);
+        void mutepincfg(byte _value);
 
         void attenuator(int8_t _value);
         void attenuator(uint8_t _channel, int8_t _value);       

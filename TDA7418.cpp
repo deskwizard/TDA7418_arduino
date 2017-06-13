@@ -423,6 +423,17 @@ void TDA7418::softmute(byte _state) {
 } // set softmute
 
 
+void TDA7418::softmutetime(byte _value) {
+
+}
+
+
+void TDA7418::softsteptime(byte _value) {
+
+
+}
+
+
 void TDA7418::autozero(byte _state) {
 
     if (_state) {
@@ -433,6 +444,47 @@ void TDA7418::autozero(byte _state) {
     }
     _write_register(REG_SOFTMUTE);
 } // set auto-zero
+
+
+void TDA7418::testmode(byte _state) {
+
+    if (_state) {
+        _register_data[REG_AUDIO_TEST] |= (1 << 0);
+    }
+    else {
+        _register_data[REG_AUDIO_TEST] &= ~(1 << 0);
+    }
+
+    _write_register(REG_AUDIO_TEST);
+}
+
+
+void TDA7418::testmux(byte _value) {
+
+    _register_data[REG_AUDIO_TEST] &= ~0x1A;
+    _register_data[REG_AUDIO_TEST] |= _value & 0x1A;
+    _write_register(REG_AUDIO_TEST);
+}
+
+
+void TDA7418::schlock(byte _state) {
+
+    if (_state) {
+        _register_data[REG_AUDIO_TEST] |= (1 << 6);
+    }
+    else {
+        _register_data[REG_AUDIO_TEST] &= ~(1 << 6);
+    }
+
+    _write_register(REG_AUDIO_TEST);
+}
+
+void TDA7418::mutepincfg(byte _value) {
+
+    _register_data[REG_AUDIO_TEST] &= ~0x82;
+    _register_data[REG_AUDIO_TEST] |= _value & 0x82;
+    _write_register(REG_AUDIO_TEST);
+}
 
 
 // Set all atenuators in auto-increment mode (batch writes)
