@@ -27,7 +27,6 @@
 // Loudness
 // LOW is already defined as 0
 #define LOWHIGH 1
-#define OFF 0
 
 // Middle settings
 #define MID_QF_050 0
