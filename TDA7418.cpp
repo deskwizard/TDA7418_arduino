@@ -123,7 +123,7 @@ void TDA7418::loudnesssoftstep(byte _state) {
 }
 
 
-void TDA7418::volume(byte _volume) {
+void TDA7418::volume(byte _volume) {    //TODO: Add ATT_MUTE value
     byte _set_volume;
 
     // bits 0x00 - 0x0F -> 0dBto +15dB

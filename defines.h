@@ -67,7 +67,7 @@
 #define FAST_MODE   1
 #define MUX_OUT     0x00
 #define EXT_CLK     0x80
-#define MUTE        0x82
+#define MUTE_PIN    0x82
 
 // Registers map
 #define AUTOINCREMENT 0x20
