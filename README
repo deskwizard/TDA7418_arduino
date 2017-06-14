@@ -17,20 +17,23 @@ void diffinmode(byte _mode);            Configure pseudo-differential mode for P
 Valid modes:    PD, SE
 
 void volume(byte _volume);              Set volume
-Valid values:   -79 to 15    *
+Valid values:   -79 to 15, VOL_MUTE
 
 void volumesoftstep(byte _state);       Enable/Disable volume soft step
 Valid values:   enable, disable
 
-void attenuator(char _value);
+void attenuator(char _value);           Configure all 5 attenuators
+Valid values:   -79 to 15
 
-void attenuator(byte _channel, char _value);
+void attenuator(byte _channel, char _value);    Configure single attenuator
+Valid channels:     Front_Left, Front_Right, Rear_Left, Rear_Right, Subwoofer
+Valid values:      -79 to 15
 
 void loudnessattenuator(int _value);    Set loudness attenuator
 Valid value range:  0 to -15
 
 void loudnesscenterfreq(int _freq);     Configure loudness filter/center frequency
-Valid frequencies:  400, 800, 2400
+Valid frequencies:  FLAT, 400, 800, 2400
 
 void loudnessshape(byte _shape);        Configure loudness shape
 Valid shapes:   LOW, LOWHIGH

@@ -73,7 +73,7 @@ void TDA7418::loudnesscenterfreq(int _freq) {
     _register_data[REG_LOUDNESS] &= ~0x30;
 
     switch (_freq) {
-        case OFF:
+        case FLAT:
             _value = 0;
             loudnessshape(LOW);
         break;

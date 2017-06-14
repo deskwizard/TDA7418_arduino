@@ -24,9 +24,12 @@
 #define PD 1
 #define SE 0
 
+#define VOL_MUTE -80
+
 // Loudness
 // LOW is already defined as 0
 #define LOWHIGH 1
+#define FLAT 0
 
 // Middle settings
 #define MID_QF_050 0
