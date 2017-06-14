@@ -41,6 +41,20 @@
 #define BASS_QF_150 2
 #define BASS_QF_200 3
 
+// Soft Step/Soft mute times
+#define SMT_048 0
+#define SMT_096 1
+#define SMT_123 2
+#define SST_016 0
+#define SST_032 1
+#define SST_064 2
+#define SST_128 3
+#define SST_256 4
+#define SST_512 5
+#define SST_1024 6
+#define SST_2048 7
+
+
 // Test register settings
 #define InMuxOutR   0
 #define LoudOutR    1

@@ -420,11 +420,18 @@ void TDA7418::softmute(byte _state) {
 
 void TDA7418::softmutetime(byte _value) {
 
+    _register_data[REG_SOFTMUTE] &= ~0x06;
+    _register_data[REG_SOFTMUTE] |= _value & 0x06;
+
+    _write_register(REG_SOFTMUTE);
 }
 
 
 void TDA7418::softsteptime(byte _value) {
+    _register_data[REG_SOFTMUTE] &= ~0x38;
+    _register_data[REG_SOFTMUTE] |= _value & 0x38;
 
+    _write_register(REG_SOFTMUTE);
 }
 
 
