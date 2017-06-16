@@ -56,6 +56,25 @@
 #define SST_1024 6
 #define SST_2048 7
 
+// Bitmasks & etc...
+#define VOL_OFFSET 0x10
+#define PWRON_DEFAULT 0xFE
+#define MASK_INPUT 0x07
+#define MASK_INPUTGAIN 0x78
+#define MASK_LOUDATT	0x0F
+#define MASK_LOUDFREQ	0x30
+#define MASK_VOLUME		0x7F
+#define MASK_SST		0x38
+#define MASK_SMT		0x06
+#define MASK_TESTMUX	0x1A
+#define MASK_MUTEPIN	0x82
+#define MASK_QF		0x60
+#define MASK_BASSFREQ	0x0C
+#define MASK_MIDDLEFREQ	0x03
+#define MASK_TREBLEFREQ	0x60
+#define MASK_ATT	0x1F
+#define MASK_ATTPOS	0x1F
+#define MASK_ATTNEG	0x0F
 
 // Test register settings
 #define InMuxOutR   0
