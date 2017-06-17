@@ -9,57 +9,56 @@ class TDA7418 {
     public:
         TDA7418();
 
-        byte begin();
+        int begin();
 
-        void source(byte _source);
-        void inputgain(byte _value);
-        void diffinmode(byte _mode);
+        int source(byte _source);
+        int inputgain(byte _value);
+        int diffinmode(byte _mode);
 
-        void loudnessattenuator(int _value);
-        void loudnesscenterfreq(int _freq);
-        void loudnessshape(byte _shape);
-        void loudnesssoftstep(byte _state);
+        int loudnessattenuator(int _value);
+        int loudnesscenterfreq(int _freq);
+        int loudnessshape(byte _shape);
+        int loudnesssoftstep(byte _state);
 
-        void volume(byte _volume);
-        void volumesoftstep(byte _state);
+        int volume(byte _volume);
+        int volumesoftstep(byte _state);
 
-        void trebleatt(int _value);
-        void treblecenterfreq(int _freq);
+        int trebleatt(int _value);
+        int treblecenterfreq(int _freq);
 
-        void middleatt(int _value);
-        void middlecenterfreq(int _freq);
-        void middleqf(byte _factor);
-        void middlesoftstep(byte _state);
+        int middleatt(int _value);
+        int middlecenterfreq(int _freq);
+        int middleqf(byte _factor);
+        int middlesoftstep(byte _state);
 
-        void bassatt(int _value);
-        void basscenterfreq(byte _freq);
-        void bassqf(byte _factor);
-        void basssoftstep(byte _state);
-        void bassdcmode(byte _state);
+        int bassatt(int _value);
+        int basscenterfreq(byte _freq);
+        int bassqf(byte _factor);
+        int basssoftstep(byte _state);
+        int bassdcmode(byte _state);
 
-        void smoothingfilter(byte _state);        
+        int smoothingfilter(byte _state);        
 
-        byte softmute();
-        void softmute(byte _state);
-        void softmutetime(byte _value);
-        void softsteptime(byte _value);
-        void autozero(byte _state);
+        int softmute();
+        int softmute(byte _state);
+        int softmutetime(byte _value);
+        int softsteptime(byte _value);
+        int autozero(byte _state);
 
-        void testmode(byte _state);
-        void testmux(byte _value);
-        void schlock(byte _state);
-        void mutepincfg(byte _value);
+        int testmode(byte _state);
+        int testmux(byte _value);
+        int schlock(byte _state);
+        int mutepincfg(byte _value);
 
-        void attenuator(char _value);
-        void attenuator(byte _channel, char _value);       
+        int attenuator(char _value);
+        int attenuator(byte _channel, char _value);       
 
 		// debug
 		void printreg(byte _reg);
 
     private:
         static byte _register_data[14];
-        byte _write_register(byte _register);
-
+        int _write_register(byte _register);
 };
 
 

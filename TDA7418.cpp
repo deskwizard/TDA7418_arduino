@@ -11,7 +11,7 @@ TDA7418::TDA7418() {}
 
 
 // Initialize TDA7418 with Power on defaults (0xFE)
-byte TDA7418::begin() {
+int TDA7418::begin() {
 
     Wire.beginTransmission(TDA_ADDR);
 
@@ -29,6 +29,7 @@ byte TDA7418::begin() {
     return error;
 }
 
+
 void TDA7418::printreg(byte _reg) {
 #ifdef DEBUG_MODE
 	Serial.print("Reg ");
@@ -38,23 +39,38 @@ void TDA7418::printreg(byte _reg) {
 #endif
 }
 
-void TDA7418::source(byte _source) {
+
+int TDA7418::source(byte _source) {
+
+	if (_source > INPUT_MUTE) {
+		return -1;
+	}
 
     _register_data[REG_SOURCE_SEL] &= ~MASK_INPUT;
     _register_data[REG_SOURCE_SEL] |= _source & MASK_INPUT;
 
-    _write_register(REG_SOURCE_SEL);
+    return _write_register(REG_SOURCE_SEL);
 }
 
-void TDA7418::inputgain(byte _value) {
+
+int TDA7418::inputgain(byte _value) {
+
+	if (_value > 15) {
+		return -1;
+	}
 
     _register_data[REG_SOURCE_SEL] &= ~MASK_INPUTGAIN;
     _register_data[REG_SOURCE_SEL] |= _value << 3 & MASK_INPUTGAIN;
 
-    _write_register(REG_SOURCE_SEL);
+    return _write_register(REG_SOURCE_SEL);
 }
 
-void TDA7418::diffinmode(byte _mode) {
+
+int TDA7418::diffinmode(byte _mode) {
+
+	if (_mode > 1) {
+      return -1;
+    }
 
     if (_mode) {
         _register_data[REG_SOURCE_SEL] |= (1 << 7);
@@ -63,27 +79,29 @@ void TDA7418::diffinmode(byte _mode) {
         _register_data[REG_SOURCE_SEL] &= ~(1 << 7);
     }
 
-    _write_register(REG_SOURCE_SEL);
+    return _write_register(REG_SOURCE_SEL);
 }
 
-void TDA7418::loudnessattenuator(int _value) {
+
+int TDA7418::loudnessattenuator(int _value) {
     
+	
+	if (_value < -15 | _value > 0) {
+		return -1;
+	}
+
     _value = abs(_value); // ditch sign bit
 
     _register_data[REG_LOUDNESS] &= ~MASK_LOUDATT;
     _register_data[REG_LOUDNESS] |= _value & MASK_LOUDATT;
 
-	printreg(REG_LOUDNESS);
-
-    _write_register(REG_LOUDNESS);
+	return _write_register(REG_LOUDNESS);
 }
 
-void TDA7418::loudnesscenterfreq(int _freq) {
 
-	printreg(REG_LOUDNESS);
+int TDA7418::loudnesscenterfreq(int _freq) {
 
     byte _value = 0;
-    _register_data[REG_LOUDNESS] &= ~MASK_LOUDFREQ;
 
     switch (_freq) {
         case FLAT:
@@ -102,17 +120,25 @@ void TDA7418::loudnesscenterfreq(int _freq) {
         case 2400:
             _value = 3;
         break;
+		
+		default:
+			return -1;
+		break;
     }
-
+	
+	_register_data[REG_LOUDNESS] &= ~MASK_LOUDFREQ;
     _register_data[REG_LOUDNESS] |= _value << 4 & MASK_LOUDFREQ;
 
-	printreg(REG_LOUDNESS);
-
-    _write_register(REG_LOUDNESS);
+	return _write_register(REG_LOUDNESS);
 }
 
 
-void TDA7418::loudnessshape(byte _shape) {
+int TDA7418::loudnessshape(byte _shape) {
+
+	if (_shape > 1) {
+      return -1;
+    }
+
 
     if (_shape) {
         _register_data[REG_LOUDNESS] |= (1 << 6);
@@ -121,13 +147,15 @@ void TDA7418::loudnessshape(byte _shape) {
         _register_data[REG_LOUDNESS] &= ~(1 << 6);
     }
 
-	printreg(REG_LOUDNESS);
-
-    _write_register(REG_LOUDNESS);
+    return _write_register(REG_LOUDNESS);
 }
 
 
-void TDA7418::loudnesssoftstep(byte _state) {
+int TDA7418::loudnesssoftstep(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_LOUDNESS] &= ~(1 << 7);
@@ -138,12 +166,16 @@ void TDA7418::loudnesssoftstep(byte _state) {
 
 	printreg(REG_LOUDNESS);
 
-    _write_register(REG_LOUDNESS);
+    return _write_register(REG_LOUDNESS);
 }
 
 
-void TDA7418::volume(byte _volume) {
+int TDA7418::volume(byte _volume) { // TODO: Just call attenuator (volume) ? 
     byte _set_volume;
+
+	if (_volume < -80 | _volume > 15) {
+		return -1;
+	}
 
     // bits 0x00 - 0x0F -> 0dBto +15dB
     if (_volume < VOL_OFFSET && _volume >= 0) {
@@ -156,10 +188,15 @@ void TDA7418::volume(byte _volume) {
     _register_data[REG_VOLUME] &= ~MASK_VOLUME;
     _register_data[REG_VOLUME] |= _set_volume & MASK_VOLUME;
 
-    _write_register(REG_VOLUME);
+    return _write_register(REG_VOLUME);
 }
 
-void TDA7418::volumesoftstep(byte _state) {
+
+int TDA7418::volumesoftstep(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_VOLUME] &= ~(1 << 7);
@@ -168,14 +205,16 @@ void TDA7418::volumesoftstep(byte _state) {
         _register_data[REG_VOLUME] |= (1 << 7);
     }
 
-    _write_register(REG_VOLUME);
+    return _write_register(REG_VOLUME);
 }
 
 
-void TDA7418::trebleatt(int _value) {
+int TDA7418::trebleatt(int _value) {
     int _result;
 
-	printreg(REG_TREBLE);
+	if (_value < -15 | _value > 15) {
+		return -1;
+	}
 
     if (_value >= 0) {
         _result = MASK_ATTPOS - _value;
@@ -187,18 +226,12 @@ void TDA7418::trebleatt(int _value) {
     _register_data[REG_TREBLE] &= ~MASK_ATT;
     _register_data[REG_TREBLE] |= _result & MASK_ATT;
 
-    _write_register(REG_TREBLE);
-
-	printreg(REG_TREBLE);
+    return _write_register(REG_TREBLE);
 }
 
 
-void TDA7418::treblecenterfreq(int _freq) {
+int TDA7418::treblecenterfreq(int _freq) {
     byte _value = 0;
-
-	printreg(REG_TREBLE);
-
-    _register_data[REG_TREBLE] &= ~MASK_TREBLEFREQ;
 
     switch (_freq) {
         case 10000:
@@ -218,20 +251,23 @@ void TDA7418::treblecenterfreq(int _freq) {
         break;
 
         default:
-            return;
+            return -1;
         break;
     }
 
+    _register_data[REG_TREBLE] &= ~MASK_TREBLEFREQ;
     _register_data[REG_TREBLE] |= _value << 5 & MASK_TREBLEFREQ;
 
-    _write_register(REG_TREBLE);
-
-	printreg(REG_TREBLE);
+    return _write_register(REG_TREBLE);
 }
 
 
-void TDA7418::middleatt(int _value) {
+int TDA7418::middleatt(int _value) {
     int _result;
+
+	if (_value < -15 | _value > 15) {
+		return -1;
+	}
 
     if (_value >= 0) {
         _result = MASK_ATTPOS - _value;
@@ -243,15 +279,12 @@ void TDA7418::middleatt(int _value) {
     _register_data[REG_MIDDLE] &= ~MASK_ATT;
     _register_data[REG_MIDDLE] |= _result & MASK_ATT;
 
-    _write_register(REG_MIDDLE);
-
-	printreg(REG_MIDDLE);
+    return _write_register(REG_MIDDLE);
 }
 
-void TDA7418::middlecenterfreq(int _freq) {
-    byte _value = 0;
 
-    _register_data[REG_MID_BAS_FC] &= ~MASK_MIDDLEFREQ;
+int TDA7418::middlecenterfreq(int _freq) {
+    byte _value = 0;
 
     switch (_freq) {
         case 500:
@@ -271,30 +304,35 @@ void TDA7418::middlecenterfreq(int _freq) {
         break;
 
         default:
-            return;
+            return -1;
         break;
     }
 
+    _register_data[REG_MID_BAS_FC] &= ~MASK_MIDDLEFREQ;
     _register_data[REG_MID_BAS_FC] |= _value & MASK_MIDDLEFREQ;
 
-    _write_register(REG_MID_BAS_FC);
-
-	printreg(REG_MID_BAS_FC);
+    return _write_register(REG_MID_BAS_FC);
 }
 
 
-void TDA7418::middleqf(byte _factor) {
+int TDA7418::middleqf(byte _factor) {
+
+	if (_factor > MID_QF_125) {
+		return -1;
+	}
 
     _register_data[REG_MIDDLE] &= ~MASK_QF;
     _register_data[REG_MIDDLE] |= _factor << 5 & MASK_QF;
 
-    _write_register(REG_MIDDLE);
-
-	printreg(REG_MIDDLE);
+    return _write_register(REG_MIDDLE);
 }
 
 
-void TDA7418::middlesoftstep(byte _state) {
+int TDA7418::middlesoftstep(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_MIDDLE] &= ~(1 << 7);
@@ -303,14 +341,18 @@ void TDA7418::middlesoftstep(byte _state) {
         _register_data[REG_MIDDLE] |= (1 << 7);
     }
 
-    _write_register(REG_MIDDLE);
+    return _write_register(REG_MIDDLE);
 
-	printreg(REG_MIDDLE);
+//	printreg(REG_MIDDLE);
 }
 
 
-void TDA7418::bassatt(int _value) {
+int TDA7418::bassatt(int _value) {
     int _result;
+
+	if (_value < -15 | _value > 15) {
+		return -1;
+	}
 
     if (_value >= 0) {
         _result = MASK_ATTPOS - _value;
@@ -322,16 +364,12 @@ void TDA7418::bassatt(int _value) {
     _register_data[REG_BASS] &= ~MASK_ATT;
     _register_data[REG_BASS] |= _result & MASK_ATT;
 
-    _write_register(REG_BASS);
-
-	printreg(REG_BASS);
+    return _write_register(REG_BASS);
 }
 
 
-void TDA7418::basscenterfreq(byte _freq) {
+int TDA7418::basscenterfreq(byte _freq) {
     byte _value = 0;
-
-    _register_data[REG_MID_BAS_FC] &= ~MASK_BASSFREQ;
 
     switch (_freq) {
         case 60:
@@ -351,30 +389,35 @@ void TDA7418::basscenterfreq(byte _freq) {
         break;
 
         default:
-            return;
+            return -1;
         break;
     }
 
+    _register_data[REG_MID_BAS_FC] &= ~MASK_BASSFREQ;
     _register_data[REG_MID_BAS_FC] |= _value << 2 & MASK_BASSFREQ;
 
-    _write_register(REG_MID_BAS_FC);
-
-	printreg(REG_MID_BAS_FC);
+    return _write_register(REG_MID_BAS_FC);
 }
 
 
-void TDA7418::bassqf(byte _factor) {
+int TDA7418::bassqf(byte _factor) {
+
+	if (_factor > BASS_QF_200) {
+		return -1;
+	}
 
     _register_data[REG_BASS] &= ~MASK_QF;
     _register_data[REG_BASS] |= _factor << 5 & MASK_QF;
 
-    _write_register(REG_BASS);
-
-	printreg(REG_BASS);
+    return _write_register(REG_BASS);
 }
 
 
-void TDA7418::basssoftstep(byte _state) {
+int TDA7418::basssoftstep(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_BASS] &= ~(1 << 7);
@@ -383,12 +426,15 @@ void TDA7418::basssoftstep(byte _state) {
         _register_data[REG_BASS] |= (1 << 7);
     }
 
-    _write_register(REG_BASS);
-
-	printreg(REG_BASS);
+    return _write_register(REG_BASS);
 }
 
-void TDA7418::bassdcmode(byte _state) {
+
+int TDA7418::bassdcmode(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_MID_BAS_FC] |= (1 << 4);        
@@ -397,13 +443,15 @@ void TDA7418::bassdcmode(byte _state) {
         _register_data[REG_MID_BAS_FC] &= ~(1 << 4);
     }
 
-    _write_register(REG_MID_BAS_FC);
-
-	printreg(REG_MID_BAS_FC);
+    return _write_register(REG_MID_BAS_FC);
 }
 
 
-void TDA7418::smoothingfilter(byte _state) {
+int TDA7418::smoothingfilter(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_MID_BAS_FC] |= (1 << 5);        
@@ -412,13 +460,11 @@ void TDA7418::smoothingfilter(byte _state) {
         _register_data[REG_MID_BAS_FC] &= ~(1 << 5);
     }
 
-    _write_register(REG_MID_BAS_FC);
-
-	printreg(REG_MID_BAS_FC);
+    return _write_register(REG_MID_BAS_FC);
 }
 
 
-byte TDA7418::softmute() {
+int TDA7418::softmute() {
     byte sm_state;
 
     Wire.beginTransmission(TDA_ADDR);
@@ -447,7 +493,11 @@ byte TDA7418::softmute() {
 }
 
 
-void TDA7418::softmute(byte _state) {
+int TDA7418::softmute(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) { // Softmute On request
         _register_data[REG_SOFTMUTE] &= ~(1 << 0);
@@ -456,28 +506,41 @@ void TDA7418::softmute(byte _state) {
         _register_data[REG_SOFTMUTE] |= (1 << 0);
     }
 
-    _write_register(REG_SOFTMUTE);
+    return _write_register(REG_SOFTMUTE);
 }
 
 
-void TDA7418::softmutetime(byte _value) {
+int TDA7418::softmutetime(byte _value) {
+
+	if (_value > SMT_123) {
+		return -1;
+	}
 
     _register_data[REG_SOFTMUTE] &= ~MASK_SMT;
     _register_data[REG_SOFTMUTE] |= _value << 1 & MASK_SMT;
 
-    _write_register(REG_SOFTMUTE);
+    return _write_register(REG_SOFTMUTE);
 }
 
 
-void TDA7418::softsteptime(byte _value) {
+int TDA7418::softsteptime(byte _value) {
+
+	if (_value > SST_2048) {
+		return -1;
+	}
+
     _register_data[REG_SOFTMUTE] &= ~MASK_SST;
     _register_data[REG_SOFTMUTE] |= _value << 3 & MASK_SST;
 
-    _write_register(REG_SOFTMUTE);
+    return _write_register(REG_SOFTMUTE);
 }
 
 
-void TDA7418::autozero(byte _state) {
+int TDA7418::autozero(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_SOFTMUTE] &= ~(1 << 6);
@@ -486,11 +549,15 @@ void TDA7418::autozero(byte _state) {
         _register_data[REG_SOFTMUTE] |= (1 << 6);
     }
 
-    _write_register(REG_SOFTMUTE);
+    return _write_register(REG_SOFTMUTE);
 }
 
 
-void TDA7418::testmode(byte _state) {
+int TDA7418::testmode(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_AUDIO_TEST] |= (1 << 0);
@@ -499,20 +566,28 @@ void TDA7418::testmode(byte _state) {
         _register_data[REG_AUDIO_TEST] &= ~(1 << 0);
     }
 
-    _write_register(REG_AUDIO_TEST);
+    return _write_register(REG_AUDIO_TEST);
 }
 
 
-void TDA7418::testmux(byte _value) {
+int TDA7418::testmux(byte _value) {
+
+	if (_value > Clk200kHz) {
+		return -1;
+	}
 
     _register_data[REG_AUDIO_TEST] &= ~MASK_TESTMUX;
     _register_data[REG_AUDIO_TEST] |= _value  << 2 & MASK_TESTMUX;
 
-    _write_register(REG_AUDIO_TEST);
+    return _write_register(REG_AUDIO_TEST);
 }
 
 
-void TDA7418::schlock(byte _state) {
+int TDA7418::schlock(byte _state) {
+
+	if (_state > 1) {
+      return -1;
+    }
 
     if (_state) {
         _register_data[REG_AUDIO_TEST] |= (1 << 6);
@@ -521,21 +596,30 @@ void TDA7418::schlock(byte _state) {
         _register_data[REG_AUDIO_TEST] &= ~(1 << 6);
     }
 
-    _write_register(REG_AUDIO_TEST);
+    return _write_register(REG_AUDIO_TEST);
 }
 
-void TDA7418::mutepincfg(byte _value) {
+
+int TDA7418::mutepincfg(byte _value) {
+
+	if (test != 0 && test != 0x80 && test != 0x82) {
+		return -1
+	}
 
     _register_data[REG_AUDIO_TEST] &= ~MASK_MUTEPIN;
     _register_data[REG_AUDIO_TEST] |= _value & MASK_MUTEPIN;
 
-    _write_register(REG_AUDIO_TEST);
+    return _write_register(REG_AUDIO_TEST);
 }
 
 
 // Set all atenuators in auto-increment mode (batch writes)
-void TDA7418::attenuator(char _value) {
+int TDA7418::attenuator(char _value) {
     byte _set_att;
+
+	if (_value < -80 | _value > 15) {
+		return -1;
+	}
 
     // bits 0x00 - 0x0F -> 0dBto +15dB
     if (_value < VOL_OFFSET && _value >= 0) {
@@ -555,18 +639,17 @@ void TDA7418::attenuator(char _value) {
         Wire.write(_register_data[x]);
     }
 
-    Wire.endTransmission(); // End batch write attenuators 7 - 11
-
-#ifdef DEBUG_MODE
-    Serial.print("Sent global data: 0x");
-    Serial.println(_set_att, HEX);
-#endif
+    return Wire.endTransmission(); // End batch write attenuators 7 - 11
 }
 
 
 // Set single attenuator
-void TDA7418::attenuator(byte _channel, char _value) {
+int TDA7418::attenuator(byte _channel, char _value) {
     byte _set_att;
+
+	if (_value < -80 | _value > 15) {
+		return -1;
+	}
 
     // bits 0x00 - 0x0F -> 0dBto +15dB
     if (_value < VOL_OFFSET && _value >= 0) {
@@ -578,16 +661,11 @@ void TDA7418::attenuator(byte _channel, char _value) {
 
     _register_data[_channel] = _set_att;
 
-    _write_register(_channel);
-
-#ifdef DEBUG_MODE
-    Serial.print("Sent data: 0x");
-    Serial.println(_set_att, HEX);
-#endif
+    return _write_register(_channel);
 }
 
 
-byte TDA7418::_write_register(byte _register) {
+int TDA7418::_write_register(byte _register) {
 
     Wire.beginTransmission(TDA_ADDR);
 
