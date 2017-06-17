@@ -53,6 +53,9 @@ class TDA7418 {
         void attenuator(char _value);
         void attenuator(byte _channel, char _value);       
 
+		// debug
+		void printreg(byte _reg);
+
     private:
         static byte _register_data[14];
         byte _write_register(byte _register);
