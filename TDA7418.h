@@ -12,43 +12,43 @@ class TDA7418 {
         int begin();
 
         int source(byte _source);
-        int inputgain(byte _value);
-        int diffinmode(byte _mode);
+        int inputGain(byte _value);
+        int diffinMode(byte _mode);
 
-        int loudnessattenuator(int _value);
-        int loudnesscenterfreq(int _freq);
-        int loudnessshape(byte _shape);
-        int loudnesssoftstep(byte _state);
+        int loudnessAttenuator(int _value);
+        int loudnessCenterFreq(int _freq);
+        int loudnessShape(byte _shape);
+        int loudnessSoftStep(byte _state);
 
-        int volume(byte _volume);
-        int volumesoftstep(byte _state);
+        int volume(int _volume);
+        int volumeSoftStep(byte _state);
 
-        int trebleatt(int _value);
-        int treblecenterfreq(int _freq);
+        int trebleAttenuator(int _value);
+        int trebleCenterFreq(int _freq);
 
-        int middleatt(int _value);
-        int middlecenterfreq(int _freq);
-        int middleqf(byte _factor);
-        int middlesoftstep(byte _state);
+        int middleAttenuator(int _value);
+        int middleCenterFreq(int _freq);
+        int middleQFactor(byte _factor);
+        int middleSoftStep(byte _state);
 
-        int bassatt(int _value);
-        int basscenterfreq(byte _freq);
-        int bassqf(byte _factor);
-        int basssoftstep(byte _state);
-        int bassdcmode(byte _state);
+        int bassAttenuator(int _value);
+        int bassCenterFreq(byte _freq);
+        int bassQFactor(byte _factor);
+        int bassSoftStep(byte _state);
+        int bassDCMode(byte _state);
 
-        int smoothingfilter(byte _state);        
+        int smoothingFilter(byte _state);        
 
-        int softmute();
-        int softmute(byte _state);
-        int softmutetime(byte _value);
-        int softsteptime(byte _value);
-        int autozero(byte _state);
+        int softMute();
+        int softMute(byte _state);
+        int softMuteTime(byte _value);
+        int softStepTime(byte _value);
+        int autoZero(byte _state);
 
-        int testmode(byte _state);
-        int testmux(byte _value);
-        int schlock(byte _state);
-        int mutepincfg(byte _value);
+        int testMode(byte _state);
+        int testMux(byte _value);
+        int schLock(byte _state);
+        int mutePinConfig(byte _value);
 
         int attenuator(char _value);
         int attenuator(byte _channel, char _value);       

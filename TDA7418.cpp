@@ -53,7 +53,7 @@ int TDA7418::source(byte _source) {
 }
 
 
-int TDA7418::inputgain(byte _value) {
+int TDA7418::inputGain(byte _value) {
 
 	if (_value > 15) {
 		return -1;
@@ -66,7 +66,7 @@ int TDA7418::inputgain(byte _value) {
 }
 
 
-int TDA7418::diffinmode(byte _mode) {
+int TDA7418::diffinMode(byte _mode) {
 
 	if (_mode > 1) {
       return -1;
@@ -83,10 +83,10 @@ int TDA7418::diffinmode(byte _mode) {
 }
 
 
-int TDA7418::loudnessattenuator(int _value) {
+int TDA7418::loudnessAttenuator(int _value) {
     
 	
-	if (_value < -15 | _value > 0) {
+	if (_value < -15 || _value > 0) {
 		return -1;
 	}
 
@@ -99,14 +99,14 @@ int TDA7418::loudnessattenuator(int _value) {
 }
 
 
-int TDA7418::loudnesscenterfreq(int _freq) {
+int TDA7418::loudnessCenterFreq(int _freq) {
 
     byte _value = 0;
 
     switch (_freq) {
         case FLAT:
             _value = 0;
-            loudnessshape(LOW);
+            loudnessShape(LOW);
         break;
 
         case 400:
@@ -133,7 +133,7 @@ int TDA7418::loudnesscenterfreq(int _freq) {
 }
 
 
-int TDA7418::loudnessshape(byte _shape) {
+int TDA7418::loudnessShape(byte _shape) {
 
 	if (_shape > 1) {
       return -1;
@@ -151,7 +151,7 @@ int TDA7418::loudnessshape(byte _shape) {
 }
 
 
-int TDA7418::loudnesssoftstep(byte _state) {
+int TDA7418::loudnessSoftStep(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -170,10 +170,10 @@ int TDA7418::loudnesssoftstep(byte _state) {
 }
 
 
-int TDA7418::volume(byte _volume) { // TODO: Just call attenuator (volume) ? 
+int TDA7418::volume(int _volume) { // TODO: Just call attenuator (volume) ? 
     byte _set_volume;
 
-	if (_volume < -80 | _volume > 15) {
+	if (_volume < -80 || _volume > 15) {
 		return -1;
 	}
 
@@ -192,7 +192,7 @@ int TDA7418::volume(byte _volume) { // TODO: Just call attenuator (volume) ?
 }
 
 
-int TDA7418::volumesoftstep(byte _state) {
+int TDA7418::volumeSoftStep(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -209,10 +209,10 @@ int TDA7418::volumesoftstep(byte _state) {
 }
 
 
-int TDA7418::trebleatt(int _value) {
+int TDA7418::trebleAttenuator(int _value) {
     int _result;
 
-	if (_value < -15 | _value > 15) {
+	if (_value < -15 || _value > 15) {
 		return -1;
 	}
 
@@ -230,7 +230,7 @@ int TDA7418::trebleatt(int _value) {
 }
 
 
-int TDA7418::treblecenterfreq(int _freq) {
+int TDA7418::trebleCenterFreq(int _freq) {
     byte _value = 0;
 
     switch (_freq) {
@@ -262,10 +262,10 @@ int TDA7418::treblecenterfreq(int _freq) {
 }
 
 
-int TDA7418::middleatt(int _value) {
+int TDA7418::middleAttenuator(int _value) {
     int _result;
 
-	if (_value < -15 | _value > 15) {
+	if (_value < -15 || _value > 15) {
 		return -1;
 	}
 
@@ -283,7 +283,7 @@ int TDA7418::middleatt(int _value) {
 }
 
 
-int TDA7418::middlecenterfreq(int _freq) {
+int TDA7418::middleCenterFreq(int _freq) {
     byte _value = 0;
 
     switch (_freq) {
@@ -315,7 +315,7 @@ int TDA7418::middlecenterfreq(int _freq) {
 }
 
 
-int TDA7418::middleqf(byte _factor) {
+int TDA7418::middleQFactor(byte _factor) {
 
 	if (_factor > MID_QF_125) {
 		return -1;
@@ -328,7 +328,7 @@ int TDA7418::middleqf(byte _factor) {
 }
 
 
-int TDA7418::middlesoftstep(byte _state) {
+int TDA7418::middleSoftStep(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -342,15 +342,13 @@ int TDA7418::middlesoftstep(byte _state) {
     }
 
     return _write_register(REG_MIDDLE);
-
-//	printreg(REG_MIDDLE);
 }
 
 
-int TDA7418::bassatt(int _value) {
+int TDA7418::bassAttenuator(int _value) {
     int _result;
 
-	if (_value < -15 | _value > 15) {
+	if (_value < -15 || _value > 15) {
 		return -1;
 	}
 
@@ -368,7 +366,7 @@ int TDA7418::bassatt(int _value) {
 }
 
 
-int TDA7418::basscenterfreq(byte _freq) {
+int TDA7418::bassCenterFreq(byte _freq) {
     byte _value = 0;
 
     switch (_freq) {
@@ -400,7 +398,7 @@ int TDA7418::basscenterfreq(byte _freq) {
 }
 
 
-int TDA7418::bassqf(byte _factor) {
+int TDA7418::bassQFactor(byte _factor) {
 
 	if (_factor > BASS_QF_200) {
 		return -1;
@@ -413,7 +411,7 @@ int TDA7418::bassqf(byte _factor) {
 }
 
 
-int TDA7418::basssoftstep(byte _state) {
+int TDA7418::bassSoftStep(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -430,7 +428,7 @@ int TDA7418::basssoftstep(byte _state) {
 }
 
 
-int TDA7418::bassdcmode(byte _state) {
+int TDA7418::bassDCMode(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -447,7 +445,7 @@ int TDA7418::bassdcmode(byte _state) {
 }
 
 
-int TDA7418::smoothingfilter(byte _state) {
+int TDA7418::smoothingFilter(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -464,7 +462,7 @@ int TDA7418::smoothingfilter(byte _state) {
 }
 
 
-int TDA7418::softmute() {
+int TDA7418::softMute() {
     byte sm_state;
 
     Wire.beginTransmission(TDA_ADDR);
@@ -493,7 +491,7 @@ int TDA7418::softmute() {
 }
 
 
-int TDA7418::softmute(byte _state) {
+int TDA7418::softMute(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -510,7 +508,7 @@ int TDA7418::softmute(byte _state) {
 }
 
 
-int TDA7418::softmutetime(byte _value) {
+int TDA7418::softMuteTime(byte _value) {
 
 	if (_value > SMT_123) {
 		return -1;
@@ -523,7 +521,7 @@ int TDA7418::softmutetime(byte _value) {
 }
 
 
-int TDA7418::softsteptime(byte _value) {
+int TDA7418::softStepTime(byte _value) {
 
 	if (_value > SST_2048) {
 		return -1;
@@ -536,7 +534,7 @@ int TDA7418::softsteptime(byte _value) {
 }
 
 
-int TDA7418::autozero(byte _state) {
+int TDA7418::autoZero(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -553,7 +551,7 @@ int TDA7418::autozero(byte _state) {
 }
 
 
-int TDA7418::testmode(byte _state) {
+int TDA7418::testMode(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -570,7 +568,7 @@ int TDA7418::testmode(byte _state) {
 }
 
 
-int TDA7418::testmux(byte _value) {
+int TDA7418::testMux(byte _value) {
 
 	if (_value > Clk200kHz) {
 		return -1;
@@ -583,7 +581,7 @@ int TDA7418::testmux(byte _value) {
 }
 
 
-int TDA7418::schlock(byte _state) {
+int TDA7418::schLock(byte _state) {
 
 	if (_state > 1) {
       return -1;
@@ -600,10 +598,10 @@ int TDA7418::schlock(byte _state) {
 }
 
 
-int TDA7418::mutepincfg(byte _value) {
+int TDA7418::mutePinConfig(byte _value) {
 
-	if (test != 0 && test != 0x80 && test != 0x82) {
-		return -1
+	if (_value != 0 && _value != 0x80 && _value != 0x82) {
+		return -1;
 	}
 
     _register_data[REG_AUDIO_TEST] &= ~MASK_MUTEPIN;
@@ -617,7 +615,7 @@ int TDA7418::mutepincfg(byte _value) {
 int TDA7418::attenuator(char _value) {
     byte _set_att;
 
-	if (_value < -80 | _value > 15) {
+	if (_value < -80 || _value > 15) {
 		return -1;
 	}
 
@@ -647,7 +645,7 @@ int TDA7418::attenuator(char _value) {
 int TDA7418::attenuator(byte _channel, char _value) {
     byte _set_att;
 
-	if (_value < -80 | _value > 15) {
+	if (_value < -80 || _value > 15) {
 		return -1;
 	}
 

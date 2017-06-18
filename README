@@ -14,16 +14,16 @@ int begin();   Initialize TDA7418 and library to default power on values
 int source(byte _source);              Configure the currently used input
 Valid sources: INPUT_MUTE, INPUT_SE1, INPUT_SE2, INPUT_SE3, INPUT_SE4_PD
 
-int inputgain(byte _value);            Configure the input gain
+int inputGain(byte _value);            Configure the input gain
 Valid value range: 0 to 15
 
-int diffinmode(byte _mode);            Configure pseudo-differential mode for PD4/PD
+int diffinMode(byte _mode);            Configure pseudo-differential mode for PD4/PD
 Valid modes:    PD, SE
 
 int volume(byte _volume);              Set volume
 Valid values:   -79 to 15, VOL_MUTE
 
-int volumesoftstep(byte _state);       Enable/Disable volume soft step
+int volumeSoftStep(byte _state);       Enable/Disable volume soft step
 Valid values:   enable, disable
 
 int attenuator(char _value);           Configure all 5 attenuators
@@ -33,80 +33,80 @@ int attenuator(byte _channel, char _value);    Configure single attenuator
 Valid channels:     Front_Left, Front_Right, Rear_Left, Rear_Right, Subwoofer
 Valid values:      -79 to 15
 
-int loudnessattenuator(int _value);    Set loudness attenuator
+int loudnessAttenuator(int _value);    Set loudness attenuator
 Valid value range:  0 to -15
 
-int loudnesscenterfreq(int _freq);     Configure loudness filter/center frequency
+int loudnessCenterFreq(int _freq);     Configure loudness filter/center frequency
 Valid frequencies:  FLAT, 400, 800, 2400
 
-int loudnessshape(byte _shape);        Configure loudness shape
+int loudnessShape(byte _shape);        Configure loudness shape
 Valid shapes:   LOW, LOWHIGH
 
-int loudnesssoftstep(byte _state);     Enable/Disable loudness soft step
+int loudnessSoftStep(byte _state);     Enable/Disable loudness soft step
 Valid values:   enable, disable
 
-int trebleatt(int _value);             Set treble attenuator
+int trebleAttenuator(int _value);             Set treble attenuator
 Valid values:   -15 to 15    
 
-int treblecenterfreq(int _freq);       Configure treble center frequency
+int trebleCenterFreq(int _freq);       Configure treble center frequency
 Valid frequencies:  10000, 12500, 15000, 17500
 
-int middleatt(int _value);             Set middle attenuator
+int middleAttenuator(int _value);             Set middle attenuator
 Valid values:   -15 to 15
 
-int middlecenterfreq(int _freq);       Configure middle center frequency
+int middleCenterFreq(int _freq);       Configure middle center frequency
 Valid frequencies:  500, 1000, 1500, 2500
 
-int middleqf(byte _factor);            Configure middle Q-Factor
+int middleQFactor(byte _factor);            Configure middle Q-Factor
 Valid factors:  MID_QF_050, MID_QF_075, MID_QF_100, MID_QF_125
 
-int middlesoftstep(byte _state);       Enable/Disable middle soft step
+int middleSoftStep(byte _state);       Enable/Disable middle soft step
 Valid values: enable, disable
 
-int bassatt(int _value);               Set bass attenuator
+int bassAttenuator(int _value);               Set bass attenuator
 Valid values:   -15 to 15    
 
-int basscenterfreq(byte _freq);        Configure bass center frequency
+int bassCenterFreq(byte _freq);        Configure bass center frequency
 Valid frequencies:  60, 80, 100, 200
 
-int bassqf(byte _factor);              Configure bass Q-Factor
+int bassQFactor(byte _factor);              Configure bass Q-Factor
 Valid values:   BASS_QF_100, BASS_QF_125, BASS_QF_150, BASS_QF_200
 
-int basssoftstep(byte _state);         Enable/Disable bass soft step
+int bassSoftStep(byte _state);         Enable/Disable bass soft step
 Valid values:   enable, disable
 
-int bassdcmode(byte _state);           Enable/Disable bass DC mode
+int bassDCMode(byte _state);           Enable/Disable bass DC mode
 Valid values:   enable, disable
 
-int smoothingfilter(byte _state);      Enable/Disable smoothing filter
+int smoothingFilter(byte _state);      Enable/Disable smoothing filter
 Valid values:   enable, disable
 
-int softmute();                        Get soft mute state
+int softMute();                        Get soft mute state
 Returns:    0 or 1
 
-int softmute(byte _state);             Enable/Disable soft mute
+int softMute(byte _state);             Enable/Disable soft mute
 Valid values:   enable, disable
 
-int softmutetime(byte _value);         Configure soft mute time
+int softMuteTime(byte _value);         Configure soft mute time
 Valid values:   SMT_048, SMT_096, SMT_123
  *** See datasheet for actual values in ms ***
 
-int softsteptime(byte _value);         Configure soft step time
+int softStepTime(byte _value);         Configure soft step time
 Valid values:   SST_016, SST_032, SST_064, SST_128, SST_256, SST_512, SST_1024, SST2048
  *** See datasheet for actual values in ms ***
 
-int autozero(byte _state);             Enable/Disable autozero function
+int autoZero(byte _state);             Enable/Disable autozero function
 Valid values: enable, disable
 
-int testmode(byte _state);             Enable/Disable test mode
+int testMode(byte _state);             Enable/Disable test mode
 Valid values: enable, disable
 
-int testmux(byte _value);              Configure test multiplexer
+int testMux(byte _value);              Configure test multiplexer
 Valid values:   InMuxOutR, LoudOutR, VolumeOutR, VGB126, REF5V5, SSCLK, SMCLK, Clk200kHz
 
-int schlock(byte _state);              Configure Schlock mode
+int schLock(byte _state);              Configure Schlock mode
 Valid values:   NORMAL_MODE, FAST_MODE
 
-int mutepincfg(byte _value);           Configure mute pin
+int mutePinConfig(byte _value);           Configure mute pin
 Valid values:   MUX_OUT, EXT_CLK, MUTE_PIN
 
