@@ -170,25 +170,8 @@ int TDA7418::loudnessSoftStep(byte _state) {
 }
 
 
-int TDA7418::volume(int _volume) { // TODO: Just call attenuator (volume) ? 
-    byte _set_volume;
-
-	if (_volume < -80 || _volume > 15) {
-		return -1;
-	}
-
-    // bits 0x00 - 0x0F -> 0dBto +15dB
-    if (_volume < VOL_OFFSET && _volume >= 0) {
-        _set_volume = _volume;
-    }
-    else {
-        _set_volume = VOL_OFFSET + -_volume;
-    }
-
-    _register_data[REG_VOLUME] &= ~MASK_VOLUME;
-    _register_data[REG_VOLUME] |= _set_volume & MASK_VOLUME;
-
-    return _write_register(REG_VOLUME);
+int TDA7418::volume(char _volume) {
+	return attenuator(REG_VOLUME, _volume);
 }
 
 

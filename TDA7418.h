@@ -20,7 +20,7 @@ class TDA7418 {
         int loudnessShape(byte _shape);
         int loudnessSoftStep(byte _state);
 
-        int volume(int _volume);
+        int volume(char _volume);
         int volumeSoftStep(byte _state);
 
         int trebleAttenuator(int _value);
