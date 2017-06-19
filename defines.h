@@ -66,7 +66,7 @@
 #define MASK_VOLUME		0x7F
 #define MASK_SST		0x38
 #define MASK_SMT		0x06
-#define MASK_TESTMUX	0x1A
+#define MASK_TESTMUX	0x1C
 #define MASK_MUTEPIN	0x82
 #define MASK_QF		0x60
 #define MASK_BASSFREQ	0x0C

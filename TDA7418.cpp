@@ -30,16 +30,6 @@ int TDA7418::begin() {
 }
 
 
-void TDA7418::printreg(byte _reg) {
-#ifdef DEBUG_MODE
-	Serial.print("Reg ");
-	Serial.print(_reg);
-	Serial.print(" value: ");
-	Serial.println(_register_data[_reg], HEX);
-#endif
-}
-
-
 int TDA7418::source(byte _source) {
 
 	if (_source > INPUT_MUTE) {
@@ -163,8 +153,6 @@ int TDA7418::loudnessSoftStep(byte _state) {
     else {
         _register_data[REG_LOUDNESS] |= (1 << 7);
     }
-
-	printreg(REG_LOUDNESS);
 
     return _write_register(REG_LOUDNESS);
 }
@@ -457,17 +445,6 @@ int TDA7418::softMute() {
 
     if (Wire.available()) {
         sm_state = Wire.read();
-
-#ifdef DEBUG_MODE
-        Serial.print("Soft Mute state: ");
-
-        if (!sm_state) {
-            Serial.println("Off");
-        }
-        else {
-            Serial.println("On");
-        }
-#endif
     }
 
     return sm_state;
@@ -524,10 +501,10 @@ int TDA7418::autoZero(byte _state) {
     }
 
     if (_state) {
-        _register_data[REG_SOFTMUTE] &= ~(1 << 6);
+        _register_data[REG_SOFTMUTE] |= (1 << 6);
     }
     else {
-        _register_data[REG_SOFTMUTE] |= (1 << 6);
+        _register_data[REG_SOFTMUTE] &= ~(1 << 6);
     }
 
     return _write_register(REG_SOFTMUTE);
@@ -656,4 +633,11 @@ int TDA7418::_write_register(byte _register) {
     byte error = Wire.endTransmission();
 
     return error;
+}
+
+void TDA7418::printreg(byte _reg) {
+	Serial.print("Reg ");
+	Serial.print(_reg);
+	Serial.print(" value: ");
+	Serial.println(_register_data[_reg], HEX);
 }
