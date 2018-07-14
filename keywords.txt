@@ -3,42 +3,42 @@ TDA7418	KEYWORD1
 begin	KEYWORD2
 
 source	KEYWORD2
-inputGain	KEYWORDS2
+inputGain	KEYWORD2
 diffinMode	KEYWORD2
 
-loudnessAttenuator	KEYWORDS2
-loudnessCenterFreq	KEYWORDS2
-loudnessShape	KEYWORDS2
-loudnessSoftStep	KEYWORDS2
+loudnessAttenuator	KEYWORD2
+loudnessCenterFreq	KEYWORD2
+loudnessShape	KEYWORD2
+loudnessSoftStep	KEYWORD2
 
 volume	KEYWORD2
 volumeSoftStep	KEYWORD2
 
-trebleAttenuator	KEYWORDS2
-trebleCenterFreq	KEYWORDS2
+trebleAttenuator	KEYWORD2
+trebleCenterFreq	KEYWORD2
 
-middleAttenuator	KEYWORDS2
-middleCenterFreq	KEYWORDS2
-middleQFactor	KEYWORDS2
-middleSoftStep	KEYWORDS2
+middleAttenuator	KEYWORD2
+middleCenterFreq	KEYWORD2
+middleQFactor	KEYWORD2
+middleSoftStep	KEYWORD2
 
-bassAttenuator	KEYWORDS2
-bassCenterFreq	KEYWORDS2
-bassQFactor	KEYWORDS2
-bassSoftStep	KEYWORDS2
-bassDCMode	KEYWORDS2
+bassAttenuator	KEYWORD2
+bassCenterFreq	KEYWORD2
+bassQFactor	KEYWORD2
+bassSoftStep	KEYWORD2
+bassDCMode	KEYWORD2
 
-smoothingFilter	KEYWORDS2
+smoothingFilter	KEYWORD2
 
 softMute	KEYWORD2
-softMuteTime	KEYWORDS2
-softStepTime	KEYWORDS2
-autoZero	KEYWORDS2
+softMuteTime	KEYWORD2
+softStepTime	KEYWORD2
+autoZero	KEYWORD2
 
-testMode	KEYWORDS2
-testMux	KEYWORDS2
-schLock	KEYWORDS2
-mutePinConfig	KEYWORDS2
+testMode	KEYWORD2
+testMux	KEYWORD2
+schLock	KEYWORD2
+mutePinConfig	KEYWORD2
 
 attenuator	KEYWORD2
 
